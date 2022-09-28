@@ -20,7 +20,7 @@ rm(list=ls())
 ### Instal packages in case they are not installed and open libraries
 
 list.of.packages <- c("tidyverse", "readr", "plyr", "pbapply", "MASS", "ggplot2", "cowplot", "plotly", "vegan", "readxl",
-                      "devtools", "baRcodeR", "writexl")
+                      "devtools", "baRcodeR", "writexl", "shiny")
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)>0) {install.packages(new.packages)}
