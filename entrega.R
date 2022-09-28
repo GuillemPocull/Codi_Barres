@@ -1,6 +1,6 @@
 
 
-#### 1.COMPRES ####
+#### 2. ENTREGA  ####
 
 ## Meta  ----------------------------------------------------------
 
@@ -37,23 +37,41 @@ dir_export_db <- paste0(dir, "/export_db") # 'compres' directory
 
 ### Open files
 
-### Create invented file
-
-producte <- c("ferro", "ferro", "plastic")
-quantitat <- c(10, 20, 30)
-
-df <- data.frame(producte, quantitat)
-
-df$ref <- round(runif(nrow(df), 10000, 99999), 0) # afegim codi barres
-
+df <- read_excel(paste0(dir_export_db, "/e1_2022-09-28.xlsx")) %>% as.data.frame
 View(df)
 
-## Transform reference to barcode  ----------------------------------------------------------
+### Create new columns
 
-### Good one
+df["check"] <- NA # new column for the checks
 
-create_PDF(Labels = df[,"ref"], name = paste0(dir_export_cb, "/ex1_", format(Sys.Date(), "%d-%m-%y")),
-           type = "linear") # 'linear' type means it follows the code 128B specification of barcoding
+df["date_check"] <- NA # new column for the date of the check
+
+
+## Check product and send to dataframe  ----------------------------------------------------------
+
+p <- 1
+
+if(p %in% df$ref) {
+  
+  print("ENTREGA REALITZADA CORRECTAMENT")
+  
+  print(paste0("producte: ", df[df$ref %in% p, "producte"]))
+  print(paste0("quantitat: ", df[df$ref %in% p, "quantitat"]))
+  
+  df[df$ref %in% p, "check"] <- "x"
+  df[df$ref %in% p, "date_check"] <- format(Sys.Date(), "%d-%m-%Y")
+  
+} else { print("NO S'HA DETECTAT EN L'INVENTARI") }
+
+df
+
+
+
+
+
+
+
+
 
 ## Export df as excel  ----------------------------------------------------------
 
